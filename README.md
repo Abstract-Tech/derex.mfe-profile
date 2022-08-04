@@ -14,6 +14,8 @@ Derex Plugin to integrate Open edX Profile Microfrontend
     derex.mfe_profile: {}
   ```
 
+- From the LMS Django Admin, create a `SiteConfiguration` for your domain and set the `ENABLE_PROFILE_MICROFRONTEND` to `true`
+
 ## Customizations
 
 There are some options that can be passed to the plugin configuration in your derex.config.yaml file.
