@@ -1,0 +1,6 @@
+-r requirements.txt
+
+mypy
+bump2version
+pip-tools
+pre-commit

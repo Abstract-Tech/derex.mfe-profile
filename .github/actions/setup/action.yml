@@ -1,0 +1,25 @@
+inputs:
+  DEVELOPMENT_MODE:
+    description: "Wheter the package should be installed in development mode. Defaults to false"
+    default: "false"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Setup python dependencies
+      run: |
+        set -x
+        pip install --cache-dir ${{ github.workspace }}/.cache/pip -U pip setuptools
+        pip install --cache-dir ${{ github.workspace }}/.cache/pip -r requirements.txt
+      shell: bash
+
+    - name: Install this package
+      run: |
+        set -x
+        if [ ${{ inputs.DEVELOPMENT_MODE }} == true ]; then
+          pip install --cache-dir ${{ github.workspace }}/.cache/pip -e .
+        else
+          pip install --cache-dir ${{ github.workspace }}/.cache/pip .
+        fi
+      shell: bash

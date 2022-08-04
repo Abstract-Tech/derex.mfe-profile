@@ -1,0 +1,43 @@
+ARG NODE_VERSION
+FROM node:${NODE_VERSION} AS base
+
+RUN apk add --no-cache \
+    git \
+    autoconf \
+    automake \
+    build-base \
+    libpng-dev \
+    pngquant
+
+RUN mkdir -p /openedx/microfrontend
+WORKDIR /openedx/microfrontend
+ENV PATH ./node_modules/.bin:${PATH}
+
+FROM base AS sourceonly
+ARG MFE_REPOSITORY
+ARG MFE_BRANCH
+
+{% if mfe_repository.is_dir() -%}
+RUN git clone ${MFE_REPOSITORY} \
+    --branch ${MFE_BRANCH} --depth 1 /openedx/microfrontend
+{% else -%}
+COPY ${MFE_REPOSITORY} /openedx/microfrontend
+{% endif -%}
+
+RUN yarn install --modules-folder /openedx/microfrontend/node_modules
+COPY .env.derex .env
+COPY .env.development.derex .env.development
+
+FROM sourceonly AS dev
+CMD fedx-scripts webpack-dev-server --progress --disable-host-check
+
+FROM sourceonly AS build
+RUN yarn build
+
+FROM docker.io/caddy:2.3.0-alpine AS final
+
+RUN mkdir -p /openedx/dist
+COPY --from=build \
+    /openedx/microfrontend/dist /srv/microfrontend
+
+COPY ./Caddyfile /etc/caddy/Caddyfile

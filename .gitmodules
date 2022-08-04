@@ -1,0 +1,4 @@
+[submodule "examples/lilac/minimal/mfe_profile_build/frontend-app-profile"]
+	path = examples/lilac/minimal/mfe_profile_build/frontend-app-profile
+	url = https://github.com/openedx/frontend-app-profile.git
+	branch = open-release/lilac.master

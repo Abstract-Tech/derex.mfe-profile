@@ -1,0 +1,13 @@
+project_name: mfe-profile-minimal
+openedx_version: lilac
+materialize_derex_settings: true
+plugins:
+  derex.mfe-profile:
+    {
+      "build_dir": "mfe_profile_build",
+      "dockerfile_path": "mfe_profile_build/Dockerfile",
+      "dev_dockerfile_path": "mfe_profile_build/Dockerfile-dev",
+      "MFE_REPOSITORY": "frontend-app-profile",
+      "MFE_BRANCH": "open-release/lilac.master",
+      "NODE_VERSION": "16.13.1-alpine3.13",
+    }
