@@ -21,8 +21,11 @@ class DerexMfeProfileAppConfig(AppConfig):
     }
 
     def ready(self):
+        from openedx.features.learner_profile.toggles import (
+            REDIRECT_TO_PROFILE_MICROFRONTEND,
+        )
         from waffle.models import Flag
-        from openedx.features.learner_profile.toggles import REDIRECT_TO_PROFILE_MICROFRONTEND
-        flag = Flag.objects.get_or_create(
+
+        Flag.objects.get_or_create(
             name=REDIRECT_TO_PROFILE_MICROFRONTEND.name, everyone=True
         )

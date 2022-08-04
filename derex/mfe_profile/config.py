@@ -34,7 +34,9 @@ def generate_local_docker_compose(project: Project) -> Path:
     mfe_profile_build_dir = config.get("build_dir") or None
 
     if mfe_profile_repository and mfe_profile_build_dir:
-        mfe_profile_repository = project.root / mfe_profile_build_dir / mfe_profile_repository
+        mfe_profile_repository = (
+            project.root / mfe_profile_build_dir / mfe_profile_repository
+        )
         if not mfe_profile_repository.exists() or not mfe_profile_repository.is_dir():
             mfe_profile_repository = None
 
