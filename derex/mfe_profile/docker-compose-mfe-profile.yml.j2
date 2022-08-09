@@ -5,7 +5,7 @@ services:
     container_name: "{{ project.name}}_mfe_profile"
     image: {{ mfe_profile_docker_image }}
     {% if project.runmode.name == "debug" and mfe_profile_repository and mfe_profile_repository.is_dir() -%}
-    command: yarn add --modules-folder /openedx/microfrontend/node_modules . && fedx-scripts webpack-dev-server --progress --disable-host-check
+    command: fedx-scripts webpack-dev-server --progress --disable-host-check
     volumes:
       - {{ mfe_profile_repository.absolute() }}:/openedx/microfrontend
     {% endif -%}
